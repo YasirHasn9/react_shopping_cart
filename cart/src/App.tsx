@@ -5,14 +5,12 @@ import axios from "axios"
 
 // components
 import Item from "./item/Item"
-import {Drawer ,LinearProgress  } from "@material-ui/core"
-import Grid from "@material-ui/core/Grid"
+import {Drawer ,LinearProgress ,Grid ,Badge } from "@material-ui/core"
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart" 
-import Badge from "@material-ui/core/Badge"
 
 
 // style 
-import {Wrapper} from "./App.style"
+import {Wrapper , StyledButton} from "./App.style"
 
 // types for ts
 // this is how you declare an object in ts
@@ -38,22 +36,44 @@ const getProducts = async ():Promise<CartItemType[]> => {
 }
 
 function App() {
+  // these states for the cart
+  const [cartOpn , setCartOpn] = useState(false)
+  const [cartItems , setItems] = useState([] as CartItemType[])
+
+
   // the useQuery hook is a function used to register your data fetching code 
   // into React Query Library. it takes an arbitrary key and an asynchronous function for fetching data 
   // it returns various values 
   const {data, isLoading , error} = useQuery<CartItemType[]>("products" , getProducts)
 
-    const handleAddToCart = (clickedItem: CartItemType) => null
+  const handleAddToCart = (clickedItem: CartItemType) => null
+  const getTotalItems = (items: CartItemType[]) => null
+
+
+
   if(isLoading) return <LinearProgress />
   if(error) return <h1>Something went wrong ...</h1>
 
   return (
     <Wrapper>
+      <Drawer anchor="right" open={cartOpn} onClose={() => setCartOpn(false)} >
+        cart goes here
+      </Drawer>
+      <StyledButton onClick={() => setCartOpn(true)}>
+        <Badge badgeContent={getTotalItems(cartItems)} color="error">
+          <AddShoppingCartIcon />
+        </Badge>
+      </StyledButton>
+
+
+
       {/* since this is the main grid so its gonna be the container */}
       <Grid container spacing={3}>
         {
           // the ? will return undefined if it cant find the data
         data?.map(item  => (
+          // xs = extra small
+          // sm = small medium
           <Grid item key={item.id} xs={12} sm={4}>
             <Item item={item} handleAddToCart={handleAddToCart} />
           </Grid>
