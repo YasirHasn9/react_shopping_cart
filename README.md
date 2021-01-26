@@ -19,3 +19,21 @@ async function fetchData(): Promise<NameOfTheObject> {
 }
 
 ```
+in this project, we are gonna use the React Query lib
+it helps to fetch, synchronize , update and cache our remote data
+It has a lot of hooks
+
+
+useQuery() is function used to register your data fetching code into React-Query lib
+it takes an arbitrary key and an async function
+
+```js
+import {useQuery} from "react-query"
+
+function Comp(){
+    // {data, isLoading , error} are built in the hook 
+    // imagine if we dont use this lib , this would take 3 useState
+    
+    const {data, isLoading , error} = useQuery("key name" , async fun)
+}
+```
