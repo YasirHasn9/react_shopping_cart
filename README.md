@@ -4,10 +4,12 @@ Using React and Typescript to build small project for shopping cart
 
 to declare an object type in ts for use in React
 
+
+```ts
 type NameOfTheObject = {
     key: type definition like number, string , bool .. etc
 }
-
+```
 
 to use this type we use <NameOfTheObject>
 
@@ -33,7 +35,7 @@ import {useQuery} from "react-query"
 function Comp(){
     // {data, isLoading , error} are built in the hook 
     // imagine if we dont use this lib , this would take 3 useState
-    
+
     const {data, isLoading , error} = useQuery("key name" , async fun)
 }
 ```
