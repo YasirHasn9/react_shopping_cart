@@ -11,7 +11,7 @@ type NameOfTheObject = {
 }
 ```
 
-to use this type we use <NameOfTheObject>
+to use this type we use NameOfTheObject
 
 now , what if we have a function that return a promise. This works when we have a async/await
 

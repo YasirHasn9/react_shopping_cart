@@ -4,6 +4,7 @@ import {useQuery} from "react-query"
 import axios from "axios"
 
 // components
+import Item from "./item/Item"
 import {Drawer ,LinearProgress  } from "@material-ui/core"
 import Grid from "@material-ui/core/Grid"
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart" 
@@ -42,13 +43,24 @@ function App() {
   // it returns various values 
   const {data, isLoading , error} = useQuery<CartItemType[]>("products" , getProducts)
 
+    const handleAddToCart = (clickedItem: CartItemType) => null
   if(isLoading) return <LinearProgress />
   if(error) return <h1>Something went wrong ...</h1>
 
   return (
-    <div className="App">
-      <h1>Hello world</h1>
-    </div>
+    <Wrapper>
+      {/* since this is the main grid so its gonna be the container */}
+      <Grid container spacing={3}>
+        {
+          // the ? will return undefined if it cant find the data
+        data?.map(item  => (
+          <Grid item key={item.id} xs={12} sm={4}>
+            <Item item={item} handleAddToCart={handleAddToCart} />
+          </Grid>
+        ))
+        }
+      </Grid>
+    </Wrapper>
   );
 }
 
