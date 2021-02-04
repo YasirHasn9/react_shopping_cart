@@ -5,6 +5,7 @@ import axios from "axios"
 
 // components
 import Item from "./item/Item"
+import Cart from "./Cart/Cart"
 import {Drawer ,LinearProgress ,Grid ,Badge } from "@material-ui/core"
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart" 
 
@@ -14,6 +15,7 @@ import {Wrapper , StyledButton} from "./App.style"
 
 // types for ts
 // this is how you declare an object in ts
+// this is represents one object : we we see CartItemType --> it means the array is having object element as CartItemType
 export type CartItemType = {
   id:number,
   category:string,
@@ -38,7 +40,7 @@ const getProducts = async ():Promise<CartItemType[]> => {
 function App() {
   // these states for the cart
   const [cartOpn , setCartOpn] = useState(false)
-  const [cartItems , setItems] = useState([] as CartItemType[])
+  const [cartItems , setCartItems] = useState([] as CartItemType[])
 
 
   // the useQuery hook is a function used to register your data fetching code 
@@ -46,8 +48,30 @@ function App() {
   // it returns various values 
   const {data, isLoading , error} = useQuery<CartItemType[]>("products" , getProducts)
 
-  const handleAddToCart = (clickedItem: CartItemType) => null
-  const getTotalItems = (items: CartItemType[]) => null
+  const handleAddToCart = (clickedItem: CartItemType) => {
+    setCartItems(prev => {
+      // 1. check the item if it is already exited in the cart
+      const isItemInCart = prev.find(item => item.id === clickedItem.id)
+
+      if(isItemInCart){
+        return prev.map(item => item.id === clickedItem.id ? {...item , amount:item.amount + 1} : item)
+      }
+
+      // if it it not already in the cart
+      return [...prev , {...clickedItem, amount : 1}]
+     }
+    
+    )
+  }
+    
+
+  const handleRemoveFromCart = (id:number) => void {
+
+  }
+
+  const getTotalItems = (items: CartItemType[]) => {
+    return items.reduce((acc:number , item) => acc + item.amount, 0)
+  }
 
 
 
@@ -57,7 +81,7 @@ function App() {
   return (
     <Wrapper>
       <Drawer anchor="right" open={cartOpn} onClose={() => setCartOpn(false)} >
-        cart goes here
+        <Cart cartItems={cartItems} addToCart={handleAddToCart} removeFromCart={handleRemoveFromCart}/>
       </Drawer>
       <StyledButton onClick={() => setCartOpn(true)}>
         <Badge badgeContent={getTotalItems(cartItems)} color="error">
