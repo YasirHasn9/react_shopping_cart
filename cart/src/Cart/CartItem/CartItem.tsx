@@ -12,7 +12,6 @@ type Props = {
     removeFromCart:(id:number) => void
 }
 const CartItem:React.FC<Props> = ({item,addToCart, removeFromCart}) => {
-    console.log("from the cart item" , item )
 return (
     <Wrapper>
         <div>
