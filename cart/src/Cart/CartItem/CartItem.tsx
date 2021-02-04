@@ -15,8 +15,7 @@ const CartItem:React.FC<Props> = ({item,addToCart, removeFromCart}) => {
     console.log("from the cart item" , item )
 return (
     <Wrapper>
-        <h1>Hello world</h1>
-        {/* <div>
+        <div>
             <h3>{item.title}</h3>
             <div className="information">
                 <p>Price: ${item.price}</p>
@@ -45,7 +44,7 @@ return (
 
             </div>
         </div>
-        <img src={item.image} alt={item.title} /> */}
+        <img src={item.image} alt={item.title} />
     </Wrapper>
 )
 }
